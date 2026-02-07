@@ -1,7 +1,5 @@
 from fastapi import FastAPI
+from routers import object_detect
 
 app = FastAPI()
-
-@app.get('/')
-def index():
-    return 'Hello world'
+app.include_router(object_detect.router)

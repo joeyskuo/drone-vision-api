@@ -1,9 +1,19 @@
-from fastapi import APIRouter, File, UploadFile, HTTPException, Query, Response
+from fastapi import APIRouter, File, UploadFile, HTTPException, Query, Response, Depends, status, Header
 from services.detection import DetectionService
+import os
+
+API_KEY = os.getenv("API_KEY")
 
 detector = DetectionService()
 
-router=APIRouter()
+async def verify_api_key(x_api_key: str = Header(...)):
+    if x_api_key != API_KEY:
+        raise HTTPException(
+            status_code=status.HTTP_401_UNAUTHORIZED,
+            detail="Invalid API key"
+        )
+
+router = APIRouter(dependencies=[Depends(verify_api_key)])
 
 @router.post('/detect')
 async def detect_objects(

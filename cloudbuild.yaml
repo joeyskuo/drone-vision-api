@@ -21,6 +21,7 @@ steps:
       - '--timeout=300'
       - '--memory=4Gi'
       - '--cpu=2'
+      - '--set-secrets=API_KEY=drone-api-key:latest'
 
 images:
   - 'us-east4-docker.pkg.dev/$PROJECT_ID/drone-vision-api/app:latest'

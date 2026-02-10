@@ -3,11 +3,9 @@ from services.detection import DetectionService
 
 detector = DetectionService()
 
-router=APIRouter(
-    prefix='/detect'
-)
+router=APIRouter()
 
-@router.post('/')
+@router.post('/detect')
 async def detect_objects(
     file: UploadFile = File(...),
     confidence_threshold: float = Query(0.25, ge=0.0, le=1.0)

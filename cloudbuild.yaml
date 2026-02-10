@@ -18,6 +18,9 @@ steps:
       - '--region=us-east4'
       - '--platform=managed'
       - '--allow-unauthenticated'
+      - '--timeout=300'
+      - '--memory=4Gi'
+      - '--cpu=2'
 
 images:
   - 'us-east4-docker.pkg.dev/$PROJECT_ID/drone-vision-api/app:latest'

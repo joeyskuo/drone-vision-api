@@ -1,0 +1,23 @@
+steps:
+  # Build the container image
+  - name: 'gcr.io/cloud-builders/docker'
+    args: ['build', '-t', 'us-east4-docker.pkg.dev/$PROJECT_ID/drone-vision-api/app:latest', '.']
+  
+  # Push to Artifact Registry
+  - name: 'gcr.io/cloud-builders/docker'
+    args: ['push', 'us-east4-docker.pkg.dev/$PROJECT_ID/drone-vision-api/app:latest']
+  
+  # Deploy to Cloud Run
+  - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk'
+    args:
+      - 'gcloud'
+      - 'run'
+      - 'deploy'
+      - 'drone-vision-api'
+      - '--image=us-east4-docker.pkg.dev/$PROJECT_ID/drone-vision-api/app:latest'
+      - '--region=us-east4'
+      - '--platform=managed'
+      - '--allow-unauthenticated'
+
+images:
+  - 'us-east4-docker.pkg.dev/$PROJECT_ID/drone-vision-api/app:latest'
